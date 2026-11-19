@@ -35,9 +35,9 @@ if (tornaBtn) {
 // ===== 2. ANIMAZIONI ALLO SCORRIMENTO (si ripetono) =====
 const stileAnimazioni = document.createElement("style");
 stileAnimazioni.textContent =
-  ".anima{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}" +
-  ".anima.entra{opacity:1;transform:none;}" +
-  "@media (prefers-reduced-motion:reduce){.anima{opacity:1;transform:none;transition:none;}}";
+  ".anima{opacity:0;transition:opacity .5s ease;}" +
+  ".anima.entra{opacity:1;}" +
+  "@media (prefers-reduced-motion:reduce){.anima{opacity:1;transition:none;}}";
 document.head.appendChild(stileAnimazioni);
 
 const daAnimare = Array.from(document.querySelectorAll("section > *")).filter(function (el) {
@@ -47,14 +47,19 @@ const daAnimare = Array.from(document.querySelectorAll("section > *")).filter(fu
 if ("IntersectionObserver" in window) {
   const osservatore = new IntersectionObserver(function (voci) {
     voci.forEach(function (voce) {
-      voce.target.classList.toggle("entra", voce.isIntersecting);
+      if (voce.intersectionRatio >= 0.15) {
+        voce.target.classList.add("entra");
+      } else if (voce.intersectionRatio === 0) {
+        voce.target.classList.remove("entra");
+      }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: [0, 0.15] });
   daAnimare.forEach(function (el) {
     el.classList.add("anima");
     osservatore.observe(el);
   });
 }
+
 
 // ===== 3. CALCOLATORE =====
 const bottoneCalcola = document.getElementById("calcola");
