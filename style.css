@@ -637,3 +637,11 @@ section.soluzione .icona {
   color: #14304a;
   border-bottom-left-radius: 6px;
 }
+
+.lavori-demo .schermate {
+  align-items: flex-start;
+}
+
+.lavori-demo .schermate img {
+  height: auto;
+}
